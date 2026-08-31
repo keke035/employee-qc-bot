@@ -1,0 +1,15 @@
+# 虚拟环境
+.venv/
+
+# 密钥与本地配置
+.env
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 模型拆分的临时大文件（本地有分片就不需要完整权重）
+models/model.safetensors
+
+# Streamlit 本地状态
+.streamlit/
