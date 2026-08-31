@@ -1,16 +1,16 @@
 
-# ====== 环境准备：让 embedding 模型在本地/云端都能加载 ======
+# ====== 统一设置环境变量：本地与云端按需分流 ======
 import os
-import tempfile
 
-# 优先用系统/项目缓存；云端无缓存时也能回退到系统临时目录
-cache_base = os.environ.get("HF_HOME") or os.path.join(
-    tempfile.gettempdir(), "hf_cache"
-)
-os.environ["HF_HOME"] = cache_base
-os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
+# 判断是否线上（Streamlit Cloud）
+IS_CLOUD = os.getenv("STREAMLIT_SERVER_ADDRESS") is not None
 
-# 注意：云端不自带 HuggingFace 缓存，若 still 连不上 hf 会崩，
-
-# 因此模型需提前分片打包进仓库，由 indexer 组装后加载。
-os.environ["HF_HUB_OFFLINE"] = "1"
+if IS_CLOUD:
+    os.environ["HF_HUB_OFFLINE"] = "0"
+    os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+else:
+    HF_CACHE = r"C:\Users\86156\Downloads\hf_cache"
+    os.environ["HF_HOME"] = HF_CACHE
+    os.environ["HF_HUB_CACHE"] = os.path.join(HF_CACHE, "hub")
+    os.environ["HF_HUB_OFFLINE"] = "1"
+    # force redeploy
