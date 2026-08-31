@@ -6,3 +6,4 @@ sentence-transformers
 torch
 torchvision
 numpy
+# force full rebuild'# force full rebuild'
