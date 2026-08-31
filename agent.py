@@ -18,6 +18,7 @@ kb = knowledge_base.kb  # 项目里的知识库单例
 
 class CustomerServiceAgent:
     def __init__(self):
+        print("CLOUD KEY len:", len(config.DEEPSEEK_API_KEY or ""))
         self.client = OpenAI(
             api_key=config.DEEPSEEK_API_KEY,
             base_url=config.DEEPSEEK_BASE_URL,
